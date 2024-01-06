@@ -1,0 +1,15 @@
+version: '0.1'
+services:
+  mysql:
+    image: mysql
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    container_name: lecodedb
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./db/:/docker-entrypoint-initdb.d/
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: lecodedb
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
