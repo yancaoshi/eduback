@@ -8,21 +8,21 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 
 -- -----------------------------------------------------
--- Schema mydb
+-- Schema lecodedb
 -- -----------------------------------------------------
 
 -- -----------------------------------------------------
--- Schema mydb
+-- Schema lecodedb
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `mydb` DEFAULT CHARACTER SET utf8 ;
-USE `mydb` ;
+CREATE SCHEMA IF NOT EXISTS `lecodedb` DEFAULT CHARACTER SET utf8 ;
+USE `lecodedb` ;
 
 -- -----------------------------------------------------
--- Table `mydb`.`student`
+-- Table `lecodedb`.`student`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`student` ;
+DROP TABLE IF EXISTS `lecodedb`.`student` ;
 
-CREATE TABLE IF NOT EXISTS `mydb`.`student` (
+CREATE TABLE IF NOT EXISTS `lecodedb`.`student` (
   `sid` INT NOT NULL AUTO_INCREMENT,
   `sno` VARCHAR(10) NOT NULL,
   `sname` VARCHAR(16) NULL,
@@ -44,11 +44,11 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`user`
+-- Table `lecodedb`.`user`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`user` ;
+DROP TABLE IF EXISTS `lecodedb`.`user` ;
 
-CREATE TABLE IF NOT EXISTS `mydb`.`user` (
+CREATE TABLE IF NOT EXISTS `lecodedb`.`user` (
   `uid` INT NOT NULL AUTO_INCREMENT,
   `uno` VARCHAR(10) NOT NULL,
   `uuser` VARCHAR(36) NULL,
@@ -66,11 +66,11 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`teacher`
+-- Table `lecodedb`.`teacher`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`teacher` ;
+DROP TABLE IF EXISTS `lecodedb`.`teacher` ;
 
-CREATE TABLE IF NOT EXISTS `mydb`.`teacher` (
+CREATE TABLE IF NOT EXISTS `lecodedb`.`teacher` (
   `tid` INT NOT NULL AUTO_INCREMENT,
   `tno` VARCHAR(10) NOT NULL,
   `tname` VARCHAR(36) NULL,
@@ -89,11 +89,11 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`contract`
+-- Table `lecodedb`.`contract`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`contract` ;
+DROP TABLE IF EXISTS `lecodedb`.`contract` ;
 
-CREATE TABLE IF NOT EXISTS `mydb`.`contract` (
+CREATE TABLE IF NOT EXISTS `lecodedb`.`contract` (
   `ctid` INT NOT NULL AUTO_INCREMENT,
   `ctno` VARCHAR(13) NOT NULL,
   `sid` INT NOT NULL,
@@ -111,22 +111,22 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`studentours`
+-- Table `lecodedb`.`studentours`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`studentours` ;
+DROP TABLE IF EXISTS `lecodedb`.`studentours` ;
 
-CREATE TABLE IF NOT EXISTS `mydb`.`studentours` (
+CREATE TABLE IF NOT EXISTS `lecodedb`.`studentours` (
   `shguid` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`shguid`))
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`classroom`
+-- Table `lecodedb`.`classroom`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`classroom` ;
+DROP TABLE IF EXISTS `lecodedb`.`classroom` ;
 
-CREATE TABLE IF NOT EXISTS `mydb`.`classroom` (
+CREATE TABLE IF NOT EXISTS `lecodedb`.`classroom` (
   `crid` INT NOT NULL AUTO_INCREMENT,
   `crname` VARCHAR(10) NOT NULL,
   `crcapacity` TINYINT NULL,
@@ -138,11 +138,11 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`study_group`
+-- Table `lecodedb`.`study_group`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`study_group` ;
+DROP TABLE IF EXISTS `lecodedb`.`study_group` ;
 
-CREATE TABLE IF NOT EXISTS `mydb`.`study_group` (
+CREATE TABLE IF NOT EXISTS `lecodedb`.`study_group` (
   `sgid` INT NOT NULL AUTO_INCREMENT,
   `sgno` VARCHAR(6) NULL,
   `sgname` VARCHAR(10) NULL,
@@ -161,11 +161,11 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`time_record`
+-- Table `lecodedb`.`time_record`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`time_record` ;
+DROP TABLE IF EXISTS `lecodedb`.`time_record` ;
 
-CREATE TABLE IF NOT EXISTS `mydb`.`time_record` (
+CREATE TABLE IF NOT EXISTS `lecodedb`.`time_record` (
   `trid` INT NOT NULL AUTO_INCREMENT,
   `ctid` INT NOT NULL,
   `tid` INT NULL,
@@ -181,11 +181,11 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`contract_payment`
+-- Table `lecodedb`.`contract_payment`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`contract_payment` ;
+DROP TABLE IF EXISTS `lecodedb`.`contract_payment` ;
 
-CREATE TABLE IF NOT EXISTS `mydb`.`contract_payment` (
+CREATE TABLE IF NOT EXISTS `lecodedb`.`contract_payment` (
   `cpid` INT NOT NULL AUTO_INCREMENT,
   `ctid` INT NOT NULL,
   `cpdate` DATE NULL,
