@@ -16,9 +16,10 @@ public class StudentController {
 	private StudentService studentService;
 
 
-	@GetMapping(path = "students", produces = "application/json")
+	@GetMapping(path = "/students", produces = "application/json")
 	public ResponseEntity<?> getStudents() {
 		log.info("Request to get all students");
+
 		return ResponseEntity.ok(studentService.getStudents());
 	}
 
