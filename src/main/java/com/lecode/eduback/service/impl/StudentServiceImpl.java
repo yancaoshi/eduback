@@ -34,13 +34,9 @@ public class StudentServiceImpl implements StudentService{
 		}
 
 		@Override
-		public StudentDTO getStudentById(Integer sid) throws Exception{
+		public StudentDTO getStudentById(Integer sid) {
 			Student student = studentMapper.selectById(sid);
-			if(student == null) {
-				throw new Exception("Student not found");
-			} else {
-				return StudentDTO.fromEntity(student);
-			}
+			return StudentDTO.fromEntity(student);
 		}
 
 		@Override

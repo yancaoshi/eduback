@@ -3,7 +3,9 @@ package com.lecode.eduback.controller;
 import com.lecode.eduback.dto.StudentDTO;
 import com.lecode.eduback.service.StudentService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,19 +17,25 @@ public class StudentController {
 	@Autowired
 	private StudentService studentService;
 
+	@Autowired
+	private MessageSource messageSource;
+
 
 	@GetMapping(path = "/students", produces = "application/json")
 	public ResponseEntity<?> getStudents() {
 		log.info("Request to get all students");
-
 		return ResponseEntity.ok(studentService.getStudents());
 	}
 
 	@GetMapping(path = "/student/{sid}", produces = "application/json")
-	public ResponseEntity<?> getStudent(@PathVariable("sid") String sid) throws Exception {
+	public ResponseEntity<?> getStudent(@PathVariable("sid") String sid) throws BadRequestException {
 		log.info("Request to get student with sid: {}", sid);
-
-		return ResponseEntity.ok(studentService.getStudentById(Integer.parseInt(sid)));
+		try {
+			return ResponseEntity.ok(studentService.getStudentById(Integer.parseInt(sid)));
+		} catch (NumberFormatException e) {
+			log.error("Invalid student ID format: {}", sid, e);
+			return ResponseEntity.badRequest().body("Invalid ID");
+		}
 	}
 
 // method to create a new student

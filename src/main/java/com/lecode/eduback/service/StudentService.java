@@ -10,7 +10,7 @@ public interface StudentService {
 
 	List<StudentDTO> getStudents();
 
-	StudentDTO getStudentById(Integer sid) throws Exception;
+	StudentDTO getStudentById(Integer sid);
 
 	StudentDTO getStudentBySno(String sno);
 
