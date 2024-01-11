@@ -32,7 +32,12 @@ public class ClassroomServiceImpl implements ClassroomService {
 
     @Override
     public ClassroomDTO getClassroomById(int crid) throws Exception {
-        return null;
+        Classroom classroom = classroomMapper.selectById(crid);
+        if(classroom == null){
+            throw new Exception("Classroom not found");
+        }else{
+            return ClassroomDTO.fromEntity(classroom);
+        }
     }
 
     @Override

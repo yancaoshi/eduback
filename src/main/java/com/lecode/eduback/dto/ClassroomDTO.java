@@ -7,7 +7,6 @@ import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.Date;
 
 @Builder
 @Getter
@@ -17,7 +16,7 @@ public class ClassroomDTO {
     private Integer crid;
 
     @NotNull
-    private String sno;
+    private String crno;
 
     @Size(max = 16)
     private String crname;
@@ -30,11 +29,11 @@ public class ClassroomDTO {
     // create method fromEntity to map Classroom to ClassroomDTO
     public static ClassroomDTO fromEntity(Classroom classroom) {
         return ClassroomDTO.builder()
-                .crid(Classroom.getCrid())
-                .crname(Classroom.getCrname())
-                .crcapacity(Classroom.getCrcapacity())
-                .crstatus(Classroom.getCrstatus())
-                .crnote(Classroom.getCrnote())
+                .crid(classroom.getCrid())
+                .crname(classroom.getCrname())
+                .crcapacity(classroom.getCrcapacity())
+                .crstatus(classroom.getCrstatus())
+                .crnote(classroom.getCrnote())
                 .build();
     }
 

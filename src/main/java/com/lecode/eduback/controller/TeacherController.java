@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 public class TeacherController {
 
 
-    @GetMapping(path = "students", produces = "application/json")
+    @GetMapping(path = "teachers", produces = "application/json")
     public ResponseEntity<?> getTeachers() {
         log.info("Request to get all teachers");
         return ResponseEntity.ok("Return list of teachers");

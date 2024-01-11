@@ -33,7 +33,7 @@ public class ClassroomController {
     @PostMapping(path = "/Classroom", consumes = "application/json", produces = "application/json")
     public ResponseEntity<?> createClassroom(@RequestBody ClassroomDTO classroomDTO) {
         log.info("Request to create a new Classroom: {}", classroomDTO);
-        ClassroomService.createClassroom(classroomDTO);
+        classroomService.createClassroom(classroomDTO);
         return ResponseEntity.ok("Classroom created");
     }
 

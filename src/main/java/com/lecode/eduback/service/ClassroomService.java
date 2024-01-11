@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface ClassroomService {
 
-    static void createClassroom(ClassroomDTO classroomDTO);
+    void createClassroom(ClassroomDTO classroomDTO);
 
     List<ClassroomDTO> getClassrooms();
 
