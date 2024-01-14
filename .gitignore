@@ -14,6 +14,9 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !.mvn/wrapper/maven-wrapper.properties
 
+# 包含.idea/codeStyles 目录
+!.idea/codeStyles/**
+
 ### Gradle and Build ###
 .gradle/            # Gradle build configuration
 build/              # Compiled output files
