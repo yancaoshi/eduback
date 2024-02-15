@@ -9,6 +9,8 @@ target/
 *.iml               # IntelliJ IDEA module settings
 *.ipr               # IntelliJ IDEA project settings
 
+# 忽略 vscode相应文件
+.vscode/
 
 # 包含 Maven Wrapper 文件
 !.mvn/wrapper/maven-wrapper.jar
