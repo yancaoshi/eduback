@@ -3,6 +3,7 @@
 -- Model: New Model    Version: 1.0
 -- MySQL Workbench Forward Engineering
 
+SET NAMES 'utf8mb4';
 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
@@ -14,7 +15,7 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- -----------------------------------------------------
 -- Schema lecodedb
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `lecodedb` DEFAULT CHARACTER SET utf8 ;
+CREATE SCHEMA IF NOT EXISTS `lecodedb` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE `lecodedb` ;
 
 -- -----------------------------------------------------
@@ -23,24 +24,24 @@ USE `lecodedb` ;
 DROP TABLE IF EXISTS `lecodedb`.`student` ;
 
 CREATE TABLE IF NOT EXISTS `lecodedb`.`student` (
-  `sid` INT NOT NULL AUTO_INCREMENT,
-  `sno` VARCHAR(10) NOT NULL,
-  `sname` VARCHAR(16) NULL,
-  `snick` VARCHAR(10) NULL,
-  `sbirth` DATE NULL,
-  `sgender` CHAR(1) NULL,
-  `sschool` VARCHAR(20) NULL,
-  `saddress` VARCHAR(45) NULL,
-  `sfamily` VARCHAR(10) NULL,
-  `sfname` VARCHAR(20) NULL,
-  `sfmobile` VARCHAR(15) NULL,
-  `ssource` VARCHAR(10) NULL,
-  `sstatus` VARCHAR(3) NULL,
-  `snote` VARCHAR(45) NULL,
+  `sid` INT NOT NULL AUTO_INCREMENT COMMENT '学生ID',
+  `sno` VARCHAR(10) NOT NULL COMMENT '学号',
+  `sname` VARCHAR(16) NULL COMMENT '姓名',
+  `snick` VARCHAR(10) NULL COMMENT '昵称',
+  `sbirth` DATE NULL COMMENT '出生日期',
+  `sgender` CHAR(1) NULL COMMENT '学生性别，M=男，F=女',
+  `sschool` VARCHAR(20) NULL COMMENT '学校',
+  `saddress` VARCHAR(45) NULL COMMENT '家庭住址',
+  `sfamily` VARCHAR(10) NULL COMMENT '家长关系，如FATHER-爸爸',
+  `sfname` VARCHAR(20) NULL COMMENT '家长姓名',
+  `sfmobile` VARCHAR(15) NULL COMMENT '家长手机',
+  `ssource` VARCHAR(10) NULL COMMENT '学生来源，1-自进店，2-转介绍',
+  `sstatus` VARCHAR(10) NULL COMMENT '学生状态，VALID-在读, CHURN-流失',
+  `snote` VARCHAR(100) NULL COMMENT '备注',
+  `deleted` TINYINT(1) NULL DEFAULT 0 COMMENT '逻辑删除，0-未删除，1-已删除',
   PRIMARY KEY (`sid`),
-  UNIQUE INDEX `sid_UNIQUE` (`sid` ASC) VISIBLE,
-  UNIQUE INDEX `sid_UNIQUE` (`sno` ASC) VISIBLE)
-ENGINE = InnoDB;
+  INDEX `sno` (`sno` ASC) VISIBLE COMMENT ''
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='存储学生信息，包括个人资料和联系方式等';
 
 
 -- -----------------------------------------------------
@@ -49,20 +50,20 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `lecodedb`.`user` ;
 
 CREATE TABLE IF NOT EXISTS `lecodedb`.`user` (
-  `uid` INT NOT NULL AUTO_INCREMENT,
-  `uno` VARCHAR(10) NOT NULL,
-  `uuser` VARCHAR(36) NULL,
-  `uname` VARCHAR(10) NULL,
-  `upassword` VARCHAR(36) NULL,
-  `uwechatid` VARCHAR(36) NULL,
-  `uwechatopenid` VARCHAR(36) NULL,
-  `uphone` VARCHAR(15) NULL,
-  `ustatus` VARCHAR(3) NULL,
-  `unote` VARCHAR(45) NULL,
-  UNIQUE INDEX `uno_UNIQUE` (`uno` ASC) VISIBLE,
+  `uid` INT NOT NULL AUTO_INCREMENT COMMENT '用户ID',
+  `uno` VARCHAR(10) NOT NULL COMMENT '用户编号，即员工号',
+  `uuser` VARCHAR(36) NULL COMMENT '登录名',
+  `uname` VARCHAR(10) NULL COMMENT '用户真实姓名',
+  `upassword` CHAR(64) NULL COMMENT '用户密码，SHA256加密',
+  `uwechatid` VARCHAR(36) NULL COMMENT '用户微信ID',
+  `uwechatopenid` VARCHAR(36) NULL COMMENT '用户微信OpenID',
+  `uphone` VARCHAR(15) NULL COMMENT '用户手机号',
+  `ustatus` VARCHAR(10) NULL COMMENT '用户状态，ACTIVE-正常, LOCK-锁定',
+  `unote` VARCHAR(100) NULL COMMENT '备注',
+  `deleted` TINYINT(1) NULL DEFAULT 0 COMMENT '逻辑删除，0-未删除，1-已删除',
   PRIMARY KEY (`uid`),
-  UNIQUE INDEX `uid_UNIQUE` (`uid` ASC) VISIBLE)
-ENGINE = InnoDB;
+  INDEX `uno` (`uno` ASC) VISIBLE COMMENT ''
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='存储用户信息，一般是前台和老师使用';
 
 
 -- -----------------------------------------------------
@@ -71,21 +72,22 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `lecodedb`.`teacher` ;
 
 CREATE TABLE IF NOT EXISTS `lecodedb`.`teacher` (
-  `tid` INT NOT NULL AUTO_INCREMENT,
-  `tno` VARCHAR(10) NOT NULL,
-  `tname` VARCHAR(36) NULL,
-  `tnick` VARCHAR(36) NULL,
-  `tbirth` DATE NULL,
-  `tgender` CHAR(1) NULL,
-  `tavatar` VARCHAR(45) NULL,
-  `tjoindate` DATE NULL,
-  `tresigndate` DATE NULL,
-  `tstatus` VARCHAR(3) NULL,
-  `tnote` VARCHAR(45) NULL,
+  `tid` INT NOT NULL AUTO_INCREMENT COMMENT '老师ID',
+  `tno` VARCHAR(10) NOT NULL COMMENT '老师编号，员工号',
+  `tname` VARCHAR(36) NULL COMMENT '老师姓名',
+  `tnick` VARCHAR(36) NULL COMMENT '老师昵称',
+  `tbirth` DATE NULL COMMENT '老师出生日期',
+  `tgender` CHAR(1) NULL COMMENT '老师性别，M=男，F=女',
+  `tavatar` VARCHAR(45) NULL COMMENT '老师头像',
+  `tjoindate` DATE NULL COMMENT '加入日期',
+  `tresigndate` DATE NULL COMMENT '离职日期',
+  `tstatus` VARCHAR(10) NULL COMMENT '老师状态，ACTIVE-在职, LOCK-锁定，RESIGN-离职',
+  `tnote` VARCHAR(100) NULL COMMENT '备注',
+  `deleted` TINYINT(1) NULL DEFAULT 0 COMMENT '逻辑删除，0-未删除，1-已删除',
   PRIMARY KEY (`tid`),
-  UNIQUE INDEX `tid_UNIQUE` (`tid` ASC) VISIBLE,
-  UNIQUE INDEX `tno_UNIQUE` (`tno` ASC) VISIBLE)
-ENGINE = InnoDB;
+  INDEX `tno` (`tno` ASC) VISIBLE COMMENT ''
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='存储老师信息，主要用于关联课消和报表';
+
 
 
 -- -----------------------------------------------------
@@ -94,90 +96,22 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `lecodedb`.`contract` ;
 
 CREATE TABLE IF NOT EXISTS `lecodedb`.`contract` (
-  `ctid` INT NOT NULL AUTO_INCREMENT,
-  `ctno` VARCHAR(13) NOT NULL,
-  `sid` INT NOT NULL,
-  `ctamount` DECIMAL NULL,
-  `ctstart` DATE NULL,
-  `ctend` DATE NULL,
-  `ctpaidhour` DECIMAL(3,1) NULL,
-  `ctfreehour` DECIMAL(3,1) NULL,
-  `classtype` VARCHAR(3) NULL,
-  `ctstatus` VARCHAR(3) NULL,
-  `ctnote` VARCHAR(45) NULL,
+  `ctid` INT NOT NULL AUTO_INCREMENT COMMENT '合同ID',
+  `ctno` VARCHAR(15) NOT NULL COMMENT '合同编号',
+  `sid` INT NOT NULL COMMENT '学生ID',
+  `ctamount` DECIMAL(7,2) NULL COMMENT '合同金额',
+  `ctstart` DATE NULL COMMENT '合同开始日期',
+  `ctend` DATE NULL COMMENT '合同结束日期',
+  `ctinstallment` TINYINT DEFAULT 1 NULL COMMENT '期数，默认一次性付款',
+  `ctpaidhour` DECIMAL(5,1) NULL COMMENT '已支付课时',
+  `ctfreehour` DECIMAL(5,1) NULL COMMENT '免费课时',
+  `classtype` VARCHAR(3) NULL COMMENT '班级类型',
+  `ctstatus` VARCHAR(10) NULL COMMENT '合同状态，ACTIVE-有效, EXPIRED-过期, CANCEL-取消',
+  `ctnote` VARCHAR(100) NULL COMMENT '备注',
+  `deleted` TINYINT(1) NULL DEFAULT 0 COMMENT '逻辑删除，0-未删除，1-已删除',
   PRIMARY KEY (`ctid`),
-  UNIQUE INDEX `cid_UNIQUE` (`ctid` ASC) VISIBLE)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `lecodedb`.`studentours`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `lecodedb`.`studentours` ;
-
-CREATE TABLE IF NOT EXISTS `lecodedb`.`studentours` (
-  `shguid` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`shguid`))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `lecodedb`.`classroom`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `lecodedb`.`classroom` ;
-
-CREATE TABLE IF NOT EXISTS `lecodedb`.`classroom` (
-  `crid` INT NOT NULL AUTO_INCREMENT,
-  `crname` VARCHAR(10) NOT NULL,
-  `crcapacity` TINYINT NULL,
-  `crstatus` VARCHAR(1) NULL,
-  `crnote` VARCHAR(45) NULL,
-  PRIMARY KEY (`crid`),
-  UNIQUE INDEX `crid_UNIQUE` (`crid` ASC) VISIBLE)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `lecodedb`.`study_group`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `lecodedb`.`study_group` ;
-
-CREATE TABLE IF NOT EXISTS `lecodedb`.`study_group` (
-  `sgid` INT NOT NULL AUTO_INCREMENT,
-  `sgno` VARCHAR(6) NULL,
-  `sgname` VARCHAR(10) NULL,
-  `sgcourse` VARCHAR(10) NULL,
-  `sgcapacity` TINYINT NULL,
-  `sgstart` DATE NULL,
-  `sgend` DATE NULL DEFAULT '9999-12-31',
-  `sgclasstime` TIME NULL,
-  `sgclasshour` DECIMAL(3,1) NULL DEFAULT 1,
-  `crid` INT NULL,
-  `sgstatus` VARCHAR(3) NULL,
-  `sgnote` VARCHAR(45) NULL,
-  PRIMARY KEY (`sgid`),
-  UNIQUE INDEX `sgid_UNIQUE` (`sgid` ASC) VISIBLE)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `lecodedb`.`time_record`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `lecodedb`.`time_record` ;
-
-CREATE TABLE IF NOT EXISTS `lecodedb`.`time_record` (
-  `trid` INT NOT NULL AUTO_INCREMENT,
-  `ctid` INT NOT NULL,
-  `tid` INT NULL,
-  `sgid` INT NULL,
-  `trhour` DECIMAL(3,1) NULL,
-  `trcontent` VARCHAR(20) NULL,
-  `trtype` VARCHAR(3) NULL,
-  `trstatus` VARCHAR(3) NULL,
-  `trnote` VARCHAR(45) NULL,
-  PRIMARY KEY (`trid`),
-  UNIQUE INDEX `trid_UNIQUE` (`trid` ASC) VISIBLE)
-ENGINE = InnoDB;
+  UNIQUE INDEX `ctno_UNIQUE` (`ctno` ASC) VISIBLE COMMENT ''
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='合同信息，';
 
 
 -- -----------------------------------------------------
@@ -186,20 +120,115 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `lecodedb`.`contract_payment` ;
 
 CREATE TABLE IF NOT EXISTS `lecodedb`.`contract_payment` (
-  `cpid` INT NOT NULL AUTO_INCREMENT,
-  `ctid` INT NOT NULL,
-  `cpdate` DATE NULL,
-  `cpamount` DECIMAL NULL,
-  `cpphase` TINYINT NULL,
-  `cpinstallment` TINYINT NULL,
-  `cppayer` VARCHAR(20) NULL,
-  `cppayee` VARCHAR(20) NULL,
-  `cpchannel` VARCHAR(10) NULL,
-  `cpstatus` VARCHAR(3) NULL,
-  `ctnote` VARCHAR(45) NULL,
-  PRIMARY KEY (`cpid`),
-  UNIQUE INDEX `cid_UNIQUE` (`cpid` ASC) VISIBLE)
-ENGINE = InnoDB;
+  `cpid` INT NOT NULL AUTO_INCREMENT COMMENT '合同支付ID',
+  `ctid` INT NOT NULL COMMENT '合同ID',
+  `cpdate` DATE NULL COMMENT '支付日期',
+  `cpamount` DECIMAL NULL COMMENT '支付金额',
+  `cpphase` TINYINT NULL COMMENT '付款阶段，不能超过相应合同的期数',
+  `cppayer` VARCHAR(20) NULL COMMENT '支付人',
+  `cppayee` VARCHAR(20) NULL COMMENT '收款人',
+  `cpchannel` VARCHAR(10) NULL COMMENT '支付渠道，WEWORK-企业微信, WECHAT-微信, ALIPAY-支付宝, CASH-现金, OTHER-其它',
+  `cpstatus` VARCHAR(10) NULL COMMENT '支付状态',
+  `ctnote` VARCHAR(100) NULL COMMENT '备注',
+  `deleted` TINYINT(1) NULL DEFAULT 0 COMMENT '逻辑删除，0-未删除，1-已删除',
+  PRIMARY KEY (`cpid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='付款信息，一次合同多次付款';
+
+-- -----------------------------------------------------
+-- Table `lecodedb`.`payment_commission`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `lecodedb`.`payment_commission` ;
+
+CREATE TABLE IF NOT EXISTS `lecodedb`.`payment_commission` (
+  `pcid` INT NOT NULL AUTO_INCREMENT COMMENT '佣金ID',
+  `cpid` INT NOT NULL COMMENT '合同支付ID',
+  `pcrole` VARCHAR(10) NOT NULL COMMENT '佣金角色, SALE-销售, TEACHER-老师',
+  `pcpercent` DECIMAL(3,2) NULL COMMENT '佣金比例',
+  `pcamount` DECIMAL NULL COMMENT '佣金金额',
+  `pcstatus` VARCHAR(10) NULL COMMENT '佣金状态, NA-无, CONFIRMED-已确认未支付, PAID-已支付',
+  `pcdate` DATE NULL COMMENT '支付日期',
+  `pcnote` VARCHAR(100) NULL COMMENT '备注',
+  `deleted` TINYINT(1) NULL DEFAULT 0 COMMENT '逻辑删除，0-未删除，1-已删除',
+  PRIMARY KEY (`pcid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='佣金信息';
+
+
+-- -----------------------------------------------------
+-- Table `lecodedb`.`classroom`
+-- -----------------------------------------------------
+-- DROP TABLE IF EXISTS `lecodedb`.`classroom` ;
+
+-- CREATE TABLE IF NOT EXISTS `lecodedb`.`classroom` (
+--   `crid` INT NOT NULL AUTO_INCREMENT COMMENT '教室ID',
+--   `crname` VARCHAR(10) NOT NULL COMMENT '教室名称',
+--   `crcapacity` TINYINT NULL COMMENT '教室容量',
+--   `crstatus` VARCHAR(10) NULL COMMENT '教室状态，OCCUPY-占用, FREE-空闲, MAINTAIN-维护, LOCK-锁定',
+--   `crnote` VARCHAR(100) NULL COMMENT '备注',
+--   `deleted` TINYINT(1) NULL DEFAULT 0 COMMENT '逻辑删除，0-未删除，1-已删除',
+--   PRIMARY KEY (`crid`)
+-- ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='教室信息，关联学习班级，暂时不用';
+
+
+-- -----------------------------------------------------
+-- Table `lecodedb`.`study_group`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `lecodedb`.`study_group` ;
+
+CREATE TABLE IF NOT EXISTS `lecodedb`.`study_group` (
+  `sgid` INT NOT NULL AUTO_INCREMENT COMMENT '班级ID',
+  `sgno` VARCHAR(6) NULL COMMENT '班级编号, 如D301',
+  `sgname` VARCHAR(10) NULL COMMENT '班级名称，如草莓班，便于记忆的别名',
+  `sgcourse` VARCHAR(10) NULL COMMENT '课程内容，如乐高、玛塔、寒假班',
+  `sgcapacity` TINYINT NULL DEFAULT 6 COMMENT '班级容量，用处不大',
+  `sgstart` DATE NULL COMMENT '开班日期',
+  `sgend` DATE NULL DEFAULT '9999-12-31' COMMENT '结束日期，状态变成结束后更新',
+  `sgclasstime` TIME NULL COMMENT '上课时间，每周固定的上课时间',
+  `sgclasshour` DECIMAL(3,1) NULL DEFAULT 1 COMMENT '每次上课的课时数',
+  `crid` INT NULL COMMENT '教室ID, 暂时不用',
+  `sgstatus` VARCHAR(10) NULL COMMENT '状态, ACTIVE-开班, CLOSED-结束',
+  `sgnote` VARCHAR(100) NULL COMMENT '备注',
+  `deleted` TINYINT(1) NULL DEFAULT 0 COMMENT '逻辑删除, 0-未删除, 1-已删除',
+  PRIMARY KEY (`sgid`),
+  INDEX `sgno` (`sgno` ASC) VISIBLE COMMENT ''
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='班级表，组班后录入班级信息';
+
+-- -----------------------------------------------------
+-- Table `lecodedb`.`group_student`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `lecodedb`.`group_student` ;
+
+CREATE TABLE IF NOT EXISTS `lecodedb`.`group_student` (
+  `gsid` INT NOT NULL AUTO_INCREMENT COMMENT '班级学生表ID',
+  `sid` INT NOT NULL COMMENT '学生ID',
+  `gsstart` DATE NULL COMMENT '加入日期',
+  `gsend` DATE NULL COMMENT '结束日期',
+  `gsstatus` VARCHAR(10) NULL COMMENT '状态, ACTIVE-在读, QUIT-退出, CLOSED-班级正常结束',
+  `gsnote` VARCHAR(100) NULL COMMENT '备注',
+  `deleted` TINYINT(1) NULL DEFAULT 0 COMMENT '逻辑删除，0-未删除，1-已删除',
+  PRIMARY KEY (`gsid`),
+  UNIQUE INDEX `sid` (`sid` ASC) VISIBLE COMMENT ''
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='班级学生表，学生加入班级后录入';
+
+
+-- -----------------------------------------------------
+-- Table `lecodedb`.`time_record`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `lecodedb`.`time_record` ;
+
+CREATE TABLE IF NOT EXISTS `lecodedb`.`time_record` (
+  `trid` INT NOT NULL AUTO_INCREMENT COMMENT '课消ID',
+  `ctid` INT NOT NULL COMMENT '合同ID',
+  `tid` INT NULL COMMENT '老师ID',
+  `sgid` INT NULL COMMENT '学习班级ID',
+  `trhour` DECIMAL(3,1) NULL COMMENT '课时',
+  `trdate` DATE NULL COMMENT '上课日期',
+  `trcontent` VARCHAR(20) NULL COMMENT '内容概述',
+  `trstatus` VARCHAR(10) NULL COMMENT '状态, ATTEND-上课, LEAVE-请假, ABSENT-缺席, MAKEUP-补课',
+  `trnote` VARCHAR(100) NULL COMMENT '备注',
+  `deleted` TINYINT(1) NULL DEFAULT 0 COMMENT '逻辑删除，0-未删除，1-已删除',
+  PRIMARY KEY (`trid`),
+  INDEX `ctid` (`ctid` ASC) VISIBLE COMMENT ''
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='课消记录表，记录学生上课情况';
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
