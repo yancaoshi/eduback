@@ -1,5 +1,8 @@
-package com.lecode.eduback.service.impl;
+package com.lecode.eduback.serviceimpl;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.lecode.eduback.dto.StudentDTO;
 import com.lecode.eduback.mapper.StudentMapper;
@@ -8,13 +11,10 @@ import com.lecode.eduback.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
+import org.springframework.web.client.HttpClientErrorException;
 
 @Service
-public class StudentServiceImpl implements StudentService{
+public class StudentServiceImpl implements StudentService {
 
 	@Autowired
 	private StudentMapper studentMapper;
@@ -34,20 +34,19 @@ public class StudentServiceImpl implements StudentService{
 		}
 
 		@Override
-		public StudentDTO getStudentById(Integer sid) {
+		public Optional<StudentDTO> getStudentById(Integer sid)
+				throws HttpClientErrorException.BadRequest {
 			Student student = studentMapper.selectById(sid);
-			return StudentDTO.fromEntity(student);
+			return Optional.ofNullable(student).map(StudentDTO::fromEntity);
 		}
 
 		@Override
-		public StudentDTO getStudentBySno(String sno) {
+		public Optional<StudentDTO> getStudentBySno(String sno) {
 			QueryWrapper<Student> queryWrapper = new QueryWrapper<Student>()
 							.eq("sno", sno);
-			return Optional.ofNullable(studentMapper.selectOne(queryWrapper))
-							.map(StudentDTO::fromEntity)
-							.orElse(null);
+			Student student = studentMapper.selectOne(queryWrapper);
+			return Optional.ofNullable(student).map(StudentDTO::fromEntity);
 		}
-
 		@Override
 		public void updateStudent(StudentDTO studentDTO) {
 			studentMapper.updateById(StudentDTO.toEntity(studentDTO));

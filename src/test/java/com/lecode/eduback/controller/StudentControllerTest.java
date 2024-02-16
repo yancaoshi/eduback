@@ -1,5 +1,8 @@
 package com.lecode.eduback.controller;
 
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import com.lecode.eduback.dto.DummyStudentDTO;
 import com.lecode.eduback.service.StudentService;
 import org.junit.jupiter.api.Test;
@@ -8,10 +11,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.MessageSource;
 import org.springframework.test.web.servlet.MockMvc;
-
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(StudentController.class)
 class StudentControllerTest {
@@ -29,17 +28,18 @@ class StudentControllerTest {
 
 
 	@Test
-	void givenValidId_WhenGetStudentById_thenRetur200() throws Exception {
+	void getStudentById_ValidId_ReturnOK() throws Exception {
 		String sid = "1";
-		when(studentService.getStudentById(Integer.parseInt(sid))).thenReturn(DummyStudentDTO.dummyStudentDTO().get());
+		when(studentService.getStudentById(Integer.parseInt(sid))).thenReturn(DummyStudentDTO.dummyStudentDTO());
 		mockMvc.perform(get("/api/v1/student/" + sid))
 						.andExpect(status().isOk());
 	}
 
 	@Test
-	void givenInalidId_WhenGetStudentById_thenReturn400() throws Exception {
-		String sid = "abc";
+	void getStudentById_InvalidId_ReturnBadRequest() throws Exception {
+		String sid = "-1";
 //		when(messageSource.getMessage("student.sid.invalid", null, LocaleContextHolder.getLocale())).thenReturn("Invalid ID");
+		when(studentService.getStudentById(Integer.parseInt(sid))).thenReturn(DummyStudentDTO.dummyStudentDTO());
 
 		mockMvc.perform(get("/api/v1/student/" + sid))
 						.andExpect(status().isBadRequest());
