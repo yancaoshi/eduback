@@ -1,19 +1,22 @@
 package com.lecode.eduback.dto;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.lecode.eduback.model.Student;
 import com.lecode.eduback.types.GenderType;
 import com.lecode.eduback.types.StudentStatus;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Builder
-@Getter
-@Setter
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class StudentDTO {
 
   @JsonProperty("StudentId")
@@ -21,10 +24,11 @@ public class StudentDTO {
 
   @JsonProperty("StudentNo")
   @NotNull
+  @Size(max = 10, message = "{student.no.length}")
   private String sno;
 
-  @Size(max = 16)
   @JsonProperty("Name")
+  @Size(max = 16)
   private String sname;
 
   @JsonProperty("Nick")
@@ -37,27 +41,34 @@ public class StudentDTO {
   private GenderType sgender;
 
   @JsonProperty("School")
+  @Size(max = 20)
   private String sschool;
 
   @JsonProperty("Address")
+  @Size(max = 45)
   private String saddress;
 
   @JsonProperty("GuardianType")
+  @Size(max = 10)
   private String sfamily;
 
   @JsonProperty("ParentName")
+  @Size(max = 20)
   private String sfname;
 
   @JsonProperty("ParentPhone")
+  @Pattern(regexp = "^\\+?[1-9]\\d{1,14}$", message = "{student.mobile.malformed}")
   private String sfmobile;
 
   @JsonProperty("Source")
+  @Size(max = 10)
   private String ssource;
 
   @JsonProperty("Status")
   private StudentStatus sstatus;
 
   @JsonProperty("Note")
+  @Size(max = 100, message = "")
   private String snote;
 
   // create method fromEntity to map Student to StudentDTO
