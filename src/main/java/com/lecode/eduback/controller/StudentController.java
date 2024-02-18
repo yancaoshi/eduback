@@ -83,7 +83,8 @@ public class StudentController {
                                                 .path("/{sid}")
                                                 .buildAndExpand(student.getSid())
                                                 .toUri();
-      return ResponseEntity.created(location).body(apiResponse);
+      return ResponseEntity.created(location)
+                           .body(apiResponse);
 
     } catch (Exception e) {
       ApiResponse apiResponse = ApiResponse.builder()
@@ -91,7 +92,8 @@ public class StudentController {
                                            .message(messageService.getProperty("failure"))
                                            .data(e.getMessage())
                                            .build();
-      return ResponseEntity.internalServerError().body(apiResponse);
+      return ResponseEntity.internalServerError()
+                           .body(apiResponse);
     }
 
   }
@@ -116,7 +118,8 @@ public class StudentController {
                                            .message(messageService.getProperty("failure"))
                                            .data(e.getMessage())
                                            .build();
-      return ResponseEntity.internalServerError().body(apiResponse);
+      return ResponseEntity.internalServerError()
+                           .body(apiResponse);
     }
 
   }
@@ -124,7 +127,7 @@ public class StudentController {
   @DeleteMapping(path = "/{sid}", produces = "application/json")
   public ResponseEntity<?> deleteStudent(@PathVariable("sid") Integer sid) {
     log.info("Request to delete student by sid: {}", sid);
-    try{
+    try {
       studentService.removeById(sid);
       ApiResponse apiResponse = ApiResponse.builder()
                                            .status(HttpStatus.OK)
@@ -138,7 +141,8 @@ public class StudentController {
                                            .message(messageService.getProperty("failure"))
                                            .data(e.getMessage())
                                            .build();
-      return ResponseEntity.internalServerError().body(apiResponse);
+      return ResponseEntity.internalServerError()
+                           .body(apiResponse);
     }
   }
 
