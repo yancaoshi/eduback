@@ -81,7 +81,7 @@ CREATE TABLE IF NOT EXISTS `lecodedb`.`teacher` (
   `tavatar` VARCHAR(45) NULL COMMENT '老师头像',
   `tjoindate` DATE NULL COMMENT '加入日期',
   `tresigndate` DATE NULL COMMENT '离职日期',
-  `tstatus` VARCHAR(10) NULL COMMENT '老师状态，ACTIVE-在职, LOCK-锁定，RESIGN-离职',
+  `tstatus` VARCHAR(10) NULL COMMENT '老师状态，A-Active, L-Locked，Q-Quit',
   `tnote` VARCHAR(100) NULL COMMENT '备注',
   `deleted` TINYINT(1) NULL DEFAULT 0 COMMENT '逻辑删除，0-未删除，1-已删除',
   PRIMARY KEY (`tid`),

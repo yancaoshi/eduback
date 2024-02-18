@@ -13,3 +13,4 @@ services:
       MYSQL_DATABASE: lecodedb
       MYSQL_USER: user
       MYSQL_PASSWORD: password
+      TZ: Asia/shanghai
