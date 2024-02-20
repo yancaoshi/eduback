@@ -1,12 +1,11 @@
 package com.lecode.eduback.dto;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.time.LocalDate;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import java.util.Date;
 
 @Builder
 @Getter
@@ -22,11 +21,11 @@ public class TeacherDTO {
     private String tname;
 
     private String tnick;
-    private Date tbirth;
+    private LocalDate tbirth;
     private Character tgender;
     private String tavatar;
-    private Date tjoindate;
-    private Date tresigndate;
+    private LocalDate tjoindate;
+    private LocalDate tresigndate;
     private Character tstatus;
     private String tnote;
 

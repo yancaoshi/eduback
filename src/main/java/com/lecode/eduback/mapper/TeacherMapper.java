@@ -6,6 +6,4 @@ import com.lecode.eduback.model.Teacher;
 
 public interface TeacherMapper extends BaseMapper<Teacher> {
 
-
-    void getTeacherById(Integer sid);
 }
